@@ -1,0 +1,25 @@
+{
+  "name": "ui-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-syntax-jsx": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.4.0",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
+    "document-register-element": "^1.13.1",
+    "jest": "^24.5.0",
+    "jsx-render": "^1.1.2"
+  }
+}
