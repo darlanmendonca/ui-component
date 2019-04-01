@@ -49,7 +49,11 @@ export default class UIComponent extends window.HTMLElement {
   }
 
   updateRender() {
+    
+  }
 
+  updateNode() {
+  
   }
 }
 

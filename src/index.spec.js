@@ -4,32 +4,19 @@ import UIComponent, {renderJSX} from './index.js'
 chai.use(require('chai-spies'))
 
 class Sample extends UIComponent {
+  static observedAttributes = ['lorem', 'name']
+
   render() {
-    return <div></div>
-  }
-}
-window.customElements.define('ui-sample', Sample)
-
-class Card extends UIComponent {
-  static observedAttributes = [
-    'string', 
-    'boolean',
-    'number',
-    'array',
-    'object',
-  ]
-
-  render(props = {}) {
     return (
       <div>
-        {props.name && <div>Nome: {props.name}</div>}
-        {props.email && <div>Email: {props.email}</div>}
+        {this.props.name &&
+          <div>{this.props.name}</div>
+        }
       </div>
     )
   }
 }
-
-window.customElements.define('ui-card', Card)
+window.customElements.define('ui-sample', Sample)
 
 describe('UIComponent', () => {
   test('should export a class', () => {
@@ -98,14 +85,25 @@ describe('UIComponent', () => {
     expect(element.afterRender).to.have.been.called()
   })
 
-  // test('should update', () => {
-  //   const element = new Card()
-  //   element.setAttribute('string', 'Darlan')
-  //   element.string = 'Clara'
-  //   element.boolean = true
-  //   element.number = 10
-  //   element.array = ['darlan mendonca', 10]
-  //   element.object = {name: 'darlan', languages: ['js', 'swift']}
-  //   console.log(element.props)
-  // })
+  test('should update render once attribute change', () => {
+    const element = new Sample()
+    chai.spy.on(element, 'updateRender')
+    element.setAttribute('lorem', 'ipsum')
+
+    expect(element.updateRender).to.have.been.called()
+  })
+
+  test('should update render once prop change', () => {
+    const element = new Sample()
+    chai.spy.on(element, 'updateRender')
+    element.lorem = 'ipsum'
+
+    expect(element.updateRender).to.have.been.called()
+  })
+
+  test.only('should update render', () => {
+    const element = new Sample()
+    element.connectedCallback()
+    element.name = 'lorem'
+  })
 })
