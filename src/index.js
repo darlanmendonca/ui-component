@@ -28,7 +28,7 @@ export default class UIComponent extends window.HTMLElement {
 
   connectedCallback() {
     const hasBeforeRender = typeof this.beforeRender === 'function'
-    const hasAfterRender = typeof this.AfterRender === 'function'
+    const hasAfterRender = typeof this.afterRender === 'function'
     
     if (hasBeforeRender)
       this.beforeRender()
@@ -36,7 +36,7 @@ export default class UIComponent extends window.HTMLElement {
     this.appendChild(this.render())
 
     if (hasAfterRender)
-      this.beforeRender()
+      this.afterRender()
   }
 
   attributeChangedCallback(attribute) {

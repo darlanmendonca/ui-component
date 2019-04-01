@@ -1,7 +1,13 @@
 import chai, {expect} from 'chai'
 import UIComponent, {renderJSX} from './index.js'
 
-class Sample extends UIComponent {}
+chai.use(require('chai-spies'))
+
+class Sample extends UIComponent {
+  render() {
+    return <div></div>
+  }
+}
 window.customElements.define('ui-sample', Sample)
 
 class Card extends UIComponent {
@@ -65,7 +71,7 @@ describe('UIComponent', () => {
     expect(element.isConnected).to.be.false
   })
 
-  test('should set html on connectedCallback', () => {
+  test('should render html once connect', () => {
     const element = new Sample()
     expect(element.innerHTML).to.be.equal('')
 
@@ -74,14 +80,32 @@ describe('UIComponent', () => {
     expect(element.innerHTML).to.be.equal('<div>lorem</div>')
   })
 
-  test('should update', () => {
-    const element = new Card()
-    element.setAttribute('string', 'Darlan')
-    element.string = 'Clara'
-    element.boolean = true
-    element.number = 10
-    element.array = ['darlan mendonca', 10]
-    element.object = {name: 'darlan', languages: ['js', 'swift']}
-    console.log(element.props)
+  test('should call beforeRender before connect', () => {
+    const element = new Sample()
+    element.beforeRender = () => ''
+    chai.spy.on(element, 'beforeRender')
+    element.connectedCallback()
+
+    expect(element.beforeRender).to.have.been.called()
   })
+
+  test('should call afterRender after connect', () => {
+    const element = new Sample()
+    element.afterRender = () => ''
+    chai.spy.on(element, 'afterRender')
+    element.connectedCallback()
+
+    expect(element.afterRender).to.have.been.called()
+  })
+
+  // test('should update', () => {
+  //   const element = new Card()
+  //   element.setAttribute('string', 'Darlan')
+  //   element.string = 'Clara'
+  //   element.boolean = true
+  //   element.number = 10
+  //   element.array = ['darlan mendonca', 10]
+  //   element.object = {name: 'darlan', languages: ['js', 'swift']}
+  //   console.log(element.props)
+  // })
 })
