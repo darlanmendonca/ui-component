@@ -1,3 +1,5 @@
+import hyperHTML from 'hyperhtml'
+
 export default class UIComponent extends window.HTMLElement {
   static observedAttributes = []
 
@@ -39,40 +41,9 @@ export default class UIComponent extends window.HTMLElement {
       this.afterRender()
   }
 
-  attributeChangedCallback(attribute) {
-    this.updateRender()
-
-    const updateEvent = new Event('update')
-    updateEvent.attribute = attribute
-    updateEvent.value = this[attribute]
-    this.dispatchEvent(updateEvent)
-  }
-
-  updateRender() {
-    const markup = document.createElement('div')
-    markup.innerHTML = this.render(this.props).outerHTML
-    const markups = [this.children, markup.children]
-    const [a, b] = markups
-
-    Array
-      .from(markups[Math.max(a.length, b.length)])
-      .forEach((_, index) => {
-        const currentNode = this.children[index]
-        const newNode = markup.children[index]
-        this.updateNode(currentNode, newNode)
-      })
-  }
-
-  updateNode(currentNode, newNode) {
-    const markups = [this.children, newNode.children]
-    const [a, b] = markups
-
-    console.log('currentNode', currentNode ? currentNode.outerHTML : 'null')
-    console.log('newNode', newNode ? newNode.outerHTML : 'null')
-
-    Array
-      .from(markups[Math.max(markups[0].length, markups[1].length)])
-      .forEach((_, index) => this.updateNode(currentNode.children[index], newNode.children[index]))
+  attributeChangedCallback() {
+    // update render
+    hyperHTML(this)`${this.render()}`
   }
 }
 

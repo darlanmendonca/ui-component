@@ -21,5 +21,8 @@
     "document-register-element": "^1.13.1",
     "jest": "^24.5.0",
     "jsx-render": "^1.1.2"
+  },
+  "dependencies": {
+    "hyperhtml": "^2.25.5"
   }
 }

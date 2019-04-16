@@ -4,13 +4,16 @@ import UIComponent, {renderJSX} from './index.js'
 chai.use(require('chai-spies'))
 
 class Sample extends UIComponent {
-  static observedAttributes = ['lorem', 'name']
+  static observedAttributes = ['lorem', 'name', 'other']
 
   render() {
     return (
       <div>
         {this.props.name &&
           <div>{this.props.name}</div>
+        }
+        {this.props.other &&
+          <div>{this.props.other}</div>
         }
       </div>
     )
@@ -104,6 +107,10 @@ describe('UIComponent', () => {
   test.only('should update render', () => {
     const element = new Sample()
     element.connectedCallback()
-    element.name = 'lorem'
+    console.log(element.outerHTML)
+    element.name = 'Darlan'
+    console.log(element.outerHTML)
+    element.other = 'Clara'
+    console.log(element.outerHTML)
   })
 })
